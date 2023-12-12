@@ -86,6 +86,7 @@ export function fetchQuiz() {
       .get("http://localhost:9000/api/quiz/next")
       .then((res) => {
         console.log(res);
+        dispatch(setQuiz(null))
         dispatch(setQuiz(res.data));
       })
       .catch((err) => {
@@ -96,13 +97,8 @@ export function fetchQuiz() {
       });
   };
 }
-
 export function postAnswer(answer) {
   return function (dispatch) {
-    // On successful POST:
-    // - Dispatch an action to reset the selected answer state
-    // - Dispatch an action to set the server message to state
-    // - Dispatch the fetching of the next quiz
     axios
       .post("http://localhost:9000/api/quiz/answer", answer)
       .then((res) => {
@@ -111,19 +107,21 @@ export function postAnswer(answer) {
         dispatch(fetchQuiz());
       })
       .catch((err) => {
-        setMessage(err);
+        dispatch(setMessage(err.toString())); // Ensure the error message is a string
       });
   };
 }
-export function postQuiz(quiz) {
+export function postQuiz(question_text, true_answer_text, false_answer_text) {
   return function (dispatch) {
     // On successful POST:
     // - Dispatch the correct message to the appropriate state
     // - Dispatch the resetting of the form
     axios
-      .post("http://localhost:9000/api/quiz/new", quiz)
+      .post("http://localhost:9000/api/quiz/new", {'question_text': question_text, 'true_answer_text': true_answer_text, 'false_answer_text': false_answer_text})
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+        dispatch(setMessage())
+        dispatch(resetForm())
       })
       .catch((err) => {
         console.log(err);

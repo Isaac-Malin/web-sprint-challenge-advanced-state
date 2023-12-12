@@ -40,10 +40,7 @@ const initialSelectedAnswerState = null;
 function selectedAnswer(state = initialSelectedAnswerState, action) {
   switch (action.type) {
     case SET_SELECTED_ANSWER:
-      return {
-        ...state,
-        initialSelectedAnswerState: action.payload
-      }
+      return action.payload
     default:
       return state;
   }
@@ -53,10 +50,7 @@ const initialMessageState = "";
 function infoMessage(state = initialMessageState, action) {
   switch (action.type) {
     case SET_INFO_MESSAGE:
-      return {
-        ...state,
-        initialMessageState: action.payload
-      }
+      return action.payload
     default:
       return state;
   }

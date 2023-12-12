@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import Message from "./Message";
 import {
   inputQuestionChange,
   trueQuestionChange,
@@ -40,10 +41,8 @@ export function Form(props) {
       .then((response) => {
         // Handle the response
         console.log(response.data);
-        setQuiz(response.data);
-        setMessage(
-          `Congrats: "${response.data.question}" is a great question!`
-        );
+        setQuiz(response.data)
+        setMessage(response.data.question)
         // console.log(response.data.question);
       })
       .catch((error) => {
