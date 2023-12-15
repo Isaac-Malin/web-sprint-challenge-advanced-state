@@ -21,11 +21,7 @@ function Quiz(props) {
     }  
 
     postAnswer(answer)
-    if (answer.answer_id === quiz.answers[0].answer_id) {
-      setMessage("Nice job! That was the correct answer")
-    } else {
-      setMessage("What a shame! That was the incorrect answer")
-    }
+    // setMessage("Nice job! That was the correct answer")
   }
   return (
     <div id="wrapper">

@@ -102,8 +102,9 @@ export function postAnswer(answer) {
     axios
       .post("http://localhost:9000/api/quiz/answer", answer)
       .then((res) => {
+        console.log(res.data.message);
         dispatch(selectAnswer(res.data.answers));
-        dispatch(setMessage("Nice job! That was the correct answer"));
+        dispatch(setMessage(res.data.message));
         dispatch(fetchQuiz());
       })
       .catch((err) => {
@@ -111,13 +112,15 @@ export function postAnswer(answer) {
       });
   };
 }
-export function postQuiz(question_text, true_answer_text, false_answer_text) {
+
+
+export function postQuiz(quiz) {
   return function (dispatch) {
     // On successful POST:
     // - Dispatch the correct message to the appropriate state
     // - Dispatch the resetting of the form
     axios
-      .post("http://localhost:9000/api/quiz/new", {'question_text': question_text, 'true_answer_text': true_answer_text, 'false_answer_text': false_answer_text})
+      .post("http://localhost:9000/api/quiz/new", )
       .then((res) => {
         console.log(res.data);
         dispatch(setMessage())
