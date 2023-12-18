@@ -46,14 +46,7 @@ export function falseQuestionChange(newFormState) {
 }
 
 export function resetForm() {
-  return {
-    type: RESET_FORM,
-    payload: {
-      newQuestion: "",
-      newTrueAnswer: "",
-      newFalseAnswer: "",
-    },
-  };
+  return { type: RESET_FORM };
 }
 
 // ❗ Async action creators
@@ -102,9 +95,16 @@ export function postAnswer(answer) {
     axios
       .post("http://localhost:9000/api/quiz/answer", answer)
       .then((res) => {
-        console.log(res.data.message);
-        dispatch(selectAnswer(res.data.answers));
-        dispatch(setMessage(res.data.message));
+        console.log(res.data); // Check the structure of res.data
+
+        if (res.data.answers) {
+          dispatch(selectAnswer(res.data.answers));
+        }
+
+        if (res.data.message) {
+          dispatch(setMessage(res.data.message));
+        }
+
         dispatch(fetchQuiz());
       })
       .catch((err) => {
@@ -113,21 +113,18 @@ export function postAnswer(answer) {
   };
 }
 
-
 export function postQuiz(quiz) {
   return function (dispatch) {
-    // On successful POST:
-    // - Dispatch the correct message to the appropriate state
-    // - Dispatch the resetting of the form
     axios
-      .post("http://localhost:9000/api/quiz/new", )
+      .post("http://localhost:9000/api/quiz/new", quiz)
       .then((res) => {
-        console.log(res.data);
-        dispatch(setMessage())
-        dispatch(resetForm())
+        console.log(res);
+        dispatch(setMessage(`Congrats: "${res.data.question}" is a great question!`)); // or use a message from the server response
+        dispatch(resetForm());
       })
       .catch((err) => {
         console.log(err);
+        dispatch(setMessage(err.toString())); // display the error message
       });
   };
 }
